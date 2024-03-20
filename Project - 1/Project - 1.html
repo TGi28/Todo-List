@@ -10,6 +10,26 @@
       rel="stylesheet"
       href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
     />
+    <style>
+      .taskcheck {
+        width: 2rem;
+        height: 2rem;
+        margin-right: 0.5rem;
+        margin-left: 0.5rem;
+      }
+      .tasktext {
+        width: 100%;
+      }
+      .task {
+        height: 3rem;
+        margin-left: 10rem;
+        margin-right: 10rem;
+      }
+      .taskdelete {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+      }
+    </style>
   </head>
   <body background="background(Project-1).jpg">
     <div class="d-flex justify-content-center flex-column">
@@ -39,6 +59,12 @@
     <script>
       let button = document.querySelector("#addtask");
       let textinput = document.querySelector("#textinput");
+
+      textinput.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          Maketask();
+        }
+      });
       textinput.addEventListener("keyup", function () {
         button.classList.remove("disabled");
         if (textinput.value === "") {
@@ -46,43 +72,48 @@
         }
       });
       button.addEventListener("click", Maketask);
+
       function Maketask() {
         button.classList.add("disabled");
-        console.log(textinput.value);
         let taskbg = document.createElement("div");
         taskbg.classList.add("taskbg", "d-flex", "align-items-stretch");
         let task = document.createElement("div");
-        task.classList.add("task", "d-flex");
+        task.classList.add(
+          "task",
+          "d-flex",
+          "mt-4",
+          "align-items-center",
+          "w-100",
+          "bg-warning"
+        );
         taskbg.appendChild(task);
         let taskcheck = document.createElement("input");
         taskcheck.type = "checkbox";
+        taskcheck.id = "taskcheck";
         taskcheck.classList.add(
           "taskcheck",
           "form-check-input",
-          "mx-auto",
-          "d-flex"
+          "d-flex",
+          "mt-0"
         );
         task.appendChild(taskcheck);
         let tasktext = document.createElement("p");
         tasktext.contentEditable = "true";
-        tasktext.classList.add("tasktext", "form-control", "mx-auto");
+        tasktext.classList.add("tasktext", "form-control", "mb-0");
         task.appendChild(tasktext);
         tasktext.textContent = textinput.value;
         document.getElementsByTagName("body")[0].appendChild(taskbg);
-        textinput.value = null;
+        textinput.value = "";
         let taskdelete = document.createElement("button");
-        taskdelete.classList.add("taskdelete", "btn", "btn-light", "d-flex");
+        taskdelete.classList.add("taskdelete", "d-flex", "btn", "btn-light");
         taskdelete.textContent = "❌";
         task.appendChild(taskdelete);
         taskdelete.addEventListener("click", function () {
           task.remove();
         });
-        if ((taskcheck.checked = true)) {
-          tasktext.classList.add("text-decoration-line-through");
-        } else {
-          taskcheck.classList.remove("text-decoration-line-through");
-        }
       }
+      let checks = document.getElementsByName("taskcheck");
+      console.log(checks);
     </script>
   </body>
 </html>
