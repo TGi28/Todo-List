@@ -1,1 +1,4 @@
-
+input[name="taskcheck"]:checked + input[type="text"] {
+  text-decoration: line-through;
+  pointer-events: none;
+}

@@ -12,8 +12,8 @@
     />
     <style>
       .taskcheck {
-        width: 2rem;
-        height: 2rem;
+        width: 1.5rem;
+        height: 1.5rem;
         margin-right: 0.5rem;
         margin-left: 0.5rem;
       }
@@ -21,18 +21,23 @@
         width: 100%;
       }
       .task {
-        height: 3rem;
-        margin-left: 10rem;
-        margin-right: 10rem;
+        height: 3.2rem;
+        margin-left: 15%;
+        margin-right: 15%;
       }
       .taskdelete {
         margin-left: 0.5rem;
         margin-right: 0.5rem;
       }
+      .tasktime {
+        width: 110px;
+        margin-left: 0.5rem;
+        text-align: center;
+      }
     </style>
   </head>
   <body background="background(Project-1).jpg">
-    <div class="d-flex justify-content-center flex-column">
+    <div class="d-flex justify-content-center flex-column container">
       <div
         class="p-2 container-fluid text-uppercase fs-1 fw-bold rounded text-white"
         style="text-align: center; margin-top: 3%; width: 25%"
@@ -41,7 +46,7 @@
       </div>
       <div class="d-flex flew-row justify-content-center">
         <input
-          class="p-2 rounded border border-black form-control"
+          class="p-2 rounded border border-black form-control fw-bold"
           style="margin-top: 3%; width: 500px; height: auto"
           type="text"
           id="textinput"
@@ -75,6 +80,7 @@
 
       function Maketask() {
         button.classList.add("disabled");
+        const taskdate = new Date();
         let taskbg = document.createElement("div");
         taskbg.classList.add("taskbg", "d-flex", "align-items-stretch");
         let task = document.createElement("div");
@@ -89,7 +95,7 @@
         taskbg.appendChild(task);
         let taskcheck = document.createElement("input");
         taskcheck.type = "checkbox";
-        taskcheck.id = "taskcheck";
+        taskcheck.name = "taskcheck";
         taskcheck.classList.add(
           "taskcheck",
           "form-check-input",
@@ -97,13 +103,17 @@
           "mt-0"
         );
         task.appendChild(taskcheck);
-        let tasktext = document.createElement("p");
-        tasktext.contentEditable = "true";
-        tasktext.classList.add("tasktext", "form-control", "mb-0");
+        let tasktext = document.createElement("input");
+        tasktext.type = "text";
+        tasktext.classList.add("tasktext", "form-control", "fs-5");
         task.appendChild(tasktext);
-        tasktext.textContent = textinput.value;
+        tasktext.value = textinput.value;
         document.getElementsByTagName("body")[0].appendChild(taskbg);
         textinput.value = "";
+        let tasktime = document.createElement("div");
+        task.appendChild(tasktime);
+        tasktime.classList.add("tasktime", "fw-medium");
+        tasktime.textContent = taskdate.toLocaleString();
         let taskdelete = document.createElement("button");
         taskdelete.classList.add("taskdelete", "d-flex", "btn", "btn-light");
         taskdelete.textContent = "❌";
@@ -112,8 +122,6 @@
           task.remove();
         });
       }
-      let checks = document.getElementsByName("taskcheck");
-      console.log(checks);
     </script>
   </body>
 </html>
