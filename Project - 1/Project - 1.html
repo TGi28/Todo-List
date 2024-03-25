@@ -37,6 +37,36 @@
     </style>
   </head>
   <body background="background(Project-1).jpg">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container" id="mycontainer">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav" id="allnav">
+            <li class="nav-item" id="home">
+              <a
+                class="nav-link active text-white fs-4"
+                aria-current="page"
+                href="#"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item" id="important">
+              <a class="nav-link text-white fs-4" href="#">Important</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
     <div class="d-flex justify-content-center flex-column container">
       <div
         class="p-2 container-fluid text-uppercase fs-1 fw-bold rounded text-white"
@@ -62,9 +92,12 @@
       </div>
     </div>
     <script>
+      window.addEventListener("load", function () {
+        Maketask();
+      });
       let button = document.querySelector("#addtask");
       let textinput = document.querySelector("#textinput");
-
+      let tasktime = document.querySelector(".tasktime");
       textinput.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
           Maketask();
@@ -80,6 +113,11 @@
 
       function Maketask() {
         button.classList.add("disabled");
+        function createtasklocal() {
+          tasktext.value = taskinfo.text;
+          taskcheck.checked = taskinfo.checked;
+          tasktime.textContent = taskdate.toLocaleString();
+        }
         const taskdate = new Date();
         let taskbg = document.createElement("div");
         taskbg.classList.add("taskbg", "d-flex", "align-items-stretch");
@@ -121,6 +159,19 @@
         taskdelete.addEventListener("click", function () {
           task.remove();
         });
+        let taskinfo = {
+          text: tasktext.value,
+          checked: taskcheck.checked,
+          time: taskdate.toLocaleString(),
+        };
+        let taskarray = JSON.parse(localStorage.getItem("taskarray")) || [];
+        taskarray.push(taskinfo);
+        localStorage.setItem("taskarray", JSON.stringify(taskarray));
+        function getdataback() {
+          const getdata = localStorage.getItem(taskarray);
+          console.log(JSON.parse(getdata));
+        }
+        console.log(taskarray);
       }
     </script>
   </body>
