@@ -77,9 +77,9 @@
     let taskarray = JSON.parse(localStorage.getItem('taskarray')) || [];
     console.log('first iteration on load', taskarray)
     if (taskarray.length) {
-      taskarray.forEach(function (item, index) {
-        Maketask(item, index)
-        console.log(item, index)
+      taskarray.forEach(function (t, i) {
+        Maketask(t, i)
+        console.log(t, i)
       })
     }
     textinput.addEventListener("keypress", function (event) {
