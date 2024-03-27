@@ -107,10 +107,14 @@
 
     function Maketask(item, index) {
       console.log('Make task fired', item)
+
       button.classList.add("disabled");
+      
       const taskdate = new Date();
+
       let taskbg = document.createElement("div");
       taskbg.classList.add("taskbg", "d-flex", "align-items-stretch");
+
       let task = document.createElement("div");
       task.classList.add(
         "task",
@@ -122,6 +126,7 @@
       );
       task.dataset.index = index
       taskbg.appendChild(task);
+
       let taskcheck = document.createElement("input");
       taskcheck.type = "checkbox";
       taskcheck.name = "taskcheck";
@@ -131,8 +136,8 @@
         "d-flex",
         "mt-0"
       );
-      taskcheck.checked = item.checked
       task.appendChild(taskcheck);
+      taskcheck.checked = item.check
 
       taskcheck.addEventListener('change', () => {
         // TODO: Tima has to add functionality to the function
@@ -146,23 +151,27 @@
       tasktext.value = item.text
       document.getElementsByTagName("body")[0].appendChild(taskbg);
       textinput.value = "";
-      taskcheck.checked = item.check
+
       let tasktime = document.createElement("div");
       task.appendChild(tasktime);
       tasktime.classList.add("tasktime", "fw-medium");
       tasktime.textContent = item.date || taskdate.toLocaleString();
+
       let taskdelete = document.createElement("button");
       taskdelete.classList.add("taskdelete", "d-flex", "btn", "btn-light");
       taskdelete.textContent = "❌";
       task.appendChild(taskdelete);
+
       taskdelete.addEventListener("click", function () {
         task.remove();
       });
+
       let taskinfo = {
         text: item.text,
         check: item.checked,
         date: tasktime.textContent,
       };
+
       return taskinfo
     }
 
