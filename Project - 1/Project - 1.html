@@ -30,7 +30,6 @@
         margin-right: 0.5rem;
       }
       .tasktime {
-        width: 110px;
         margin-left: 0.5rem;
         text-align: center;
       }
@@ -84,7 +83,7 @@
         />
         <button
           class="bg-warning rounded btn disabled fw-bold"
-          style="height: 43px; padding: 8px; margin-top: 3%; margin-left: 0.5%"
+          style="padding: 8px; margin-top: 3%; margin-left: 0.5%"
           id="addtask"
         >
           Add
@@ -92,12 +91,20 @@
       </div>
     </div>
     <script>
-      window.addEventListener("load", function () {
-        Maketask();
-      });
       let button = document.querySelector("#addtask");
       let textinput = document.querySelector("#textinput");
       let tasktime = document.querySelector(".tasktime");
+      let taskarray = []
+      const storedtask = localStorage.getItem('taskarray')
+      if(storedtask) {
+        const resttskarr = JSON.parse(storedtask)
+          resttskarr.forEach(function(item){
+          Maketask(item)
+          console.log(resttskarr)
+        })
+      } else {
+
+      }
       textinput.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
           Maketask();
@@ -111,13 +118,8 @@
       });
       button.addEventListener("click", Maketask);
 
-      function Maketask() {
+      function Maketask(item={}) {
         button.classList.add("disabled");
-        function createtasklocal() {
-          tasktext.value = taskinfo.text;
-          taskcheck.checked = taskinfo.checked;
-          tasktime.textContent = taskdate.toLocaleString();
-        }
         const taskdate = new Date();
         let taskbg = document.createElement("div");
         taskbg.classList.add("taskbg", "d-flex", "align-items-stretch");
@@ -145,33 +147,29 @@
         tasktext.type = "text";
         tasktext.classList.add("tasktext", "form-control", "fs-5");
         task.appendChild(tasktext);
-        tasktext.value = textinput.value;
+        tasktext.value = textinput.value || item.text
         document.getElementsByTagName("body")[0].appendChild(taskbg);
         textinput.value = "";
+        taskcheck.checked = item.check
         let tasktime = document.createElement("div");
         task.appendChild(tasktime);
         tasktime.classList.add("tasktime", "fw-medium");
-        tasktime.textContent = taskdate.toLocaleString();
+        tasktime.textContent = item.date || taskdate.toLocaleString();
         let taskdelete = document.createElement("button");
         taskdelete.classList.add("taskdelete", "d-flex", "btn", "btn-light");
         taskdelete.textContent = "❌";
         task.appendChild(taskdelete);
         taskdelete.addEventListener("click", function () {
           task.remove();
+          localStorage.removeItem(taskarray[0])
         });
         let taskinfo = {
           text: tasktext.value,
-          checked: taskcheck.checked,
-          time: taskdate.toLocaleString(),
+          check: taskcheck.checked,
+          date: tasktime.textContent,
         };
-        let taskarray = JSON.parse(localStorage.getItem("taskarray")) || [];
         taskarray.push(taskinfo);
-        localStorage.setItem("taskarray", JSON.stringify(taskarray));
-        function getdataback() {
-          const getdata = localStorage.getItem(taskarray);
-          console.log(JSON.parse(getdata));
-        }
-        console.log(taskarray);
+        localStorage.setItem("taskarray", JSON.stringify(taskarray))
       }
     </script>
   </body>
