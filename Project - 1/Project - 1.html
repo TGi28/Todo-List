@@ -55,6 +55,7 @@
           </li>
         </ul>
       </div>
+      <button class="btn btn-danger" id="delbtn">Delete all tasks</button>
     </div>
   </nav>
   <div class="d-flex justify-content-center flex-column container">
@@ -75,6 +76,7 @@
     let button = document.querySelector("#addtask");
     let textinput = document.querySelector("#textinput");
     let taskarray = JSON.parse(localStorage.getItem('taskarray')) || [];
+    let dltall = document.querySelector('#delbtn')
     console.log('first iteration on load', taskarray)
     if (taskarray.length) {
       taskarray.forEach(function (item, index) {
@@ -95,6 +97,14 @@
     });
     button.addEventListener("click", addTask);
 
+dltall.addEventListener('click', function(){
+      let tasks = document.querySelectorAll('.taskbg');
+      tasks.forEach((task) => { 
+        task.remove()
+      })
+      localStorage.clear()
+    })
+
     function addTask() {
       console.log('add Task fired')
       let task = Maketask({
@@ -114,6 +124,7 @@
 
       let taskbg = document.createElement("div");
       taskbg.classList.add("taskbg", "d-flex", "align-items-stretch");
+      taskbg.tagName = 'taskbg'
 
       let task = document.createElement("div");
       task.classList.add(
@@ -163,7 +174,7 @@
       task.appendChild(taskdelete);
 
       taskdelete.addEventListener("click", function () {
-        task.remove();
+        taskbg.remove();
       });
 
       let taskinfo = {
@@ -171,6 +182,7 @@
         check: item.checked,
         date: tasktime.textContent,
       };
+
 
       return taskinfo
     }
