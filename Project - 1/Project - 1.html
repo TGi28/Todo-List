@@ -154,6 +154,7 @@ dltall.addEventListener('click', function(){
       taskcheck.addEventListener('change', () => {
         // TODO: Tima has to add functionality to the function
         console.log('task status change', taskcheck.checked)
+        chekingTask(task.check)
       })
 
       let tasktext = document.createElement("input");
@@ -203,6 +204,18 @@ dltall.addEventListener('click', function(){
         localStorage.setItem("taskarray", JSON.stringify(taskarray))
       }
     })}
+    function chekingTask(check){
+      taskarray.forEach(function(index,task,check){
+        console.log('index and id', check )
+        if(task.check == true) {
+          task.check = false;
+          localStorage.setItem("taskarray", JSON.stringify(taskarray))
+        } else {
+          task.check = true
+          localStorage.setItem("taskarray", JSON.stringify(taskarray))
+        }
+      })
+    }
   </script>
 </body>
 
