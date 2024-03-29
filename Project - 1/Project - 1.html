@@ -115,9 +115,10 @@ dltall.addEventListener('click', function(){
       saveTask(task)
     }
 
-    function Maketask(item, index) {
+    function Maketask(item, index,) {
       console.log('Make task fired', item)
 
+      let taskid = crypto.randomUUID();
       button.classList.add("disabled");
       
       const taskdate = new Date();
@@ -157,6 +158,7 @@ dltall.addEventListener('click', function(){
 
       let tasktext = document.createElement("input");
       tasktext.type = "text";
+      task.id = taskid;
       tasktext.classList.add("tasktext", "form-control", "fs-5");
       task.appendChild(tasktext);
       tasktext.value = item.text
@@ -174,6 +176,7 @@ dltall.addEventListener('click', function(){
       task.appendChild(taskdelete);
 
       taskdelete.addEventListener("click", function () {
+        deleteTask(task.id)
         taskbg.remove();
       });
 
@@ -181,6 +184,7 @@ dltall.addEventListener('click', function(){
         text: item.text,
         check: item.checked,
         date: tasktime.textContent,
+        id: task.id
       };
 
 
@@ -191,6 +195,14 @@ dltall.addEventListener('click', function(){
       taskarray.push(task);
       localStorage.setItem("taskarray", JSON.stringify(taskarray))
     }
+
+    function deleteTask(id){
+      taskarray.forEach(function(task, index){
+      if(task.id == id){
+        taskarray.splice(index,1)
+        localStorage.setItem("taskarray", JSON.stringify(taskarray))
+      }
+    })}
   </script>
 </body>
 
