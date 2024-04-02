@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Project - 1</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <link rel="stylesheet" href="important-css.css" />
+  <link rel="stylesheet" href="home-css.css" />
   <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
   <style>
     .taskcheck {
@@ -34,6 +34,13 @@
     .tasktime {
       margin-left: 0.5rem;
       text-align: center;
+    }
+
+    .taskimportant {
+      border: hidden;
+      background: none;
+      margin-left: 0.5rem;
+      padding: 0;
     }
   </style>
 </head>
@@ -72,13 +79,15 @@
       let task = Maketask({
         text: textinput.value,
         checked: false,
-        id: crypto.randomUUID()
+        id: crypto.randomUUID(),
+        imp:"☆",
       }, taskarray.length)
 
       saveTask(task)
     }
 
     function Maketask(item, index,) {
+      if(item.imp ==="★") {
       console.log('Make task fired', item)
       
       const taskdate = new Date();
@@ -97,6 +106,7 @@
         "bg-warning"
       );
       task.dataset.index = index
+      task.id = item.id;
       taskbg.appendChild(task);
 
       let taskcheck = document.createElement("input");
@@ -112,23 +122,37 @@
       taskcheck.checked = item.check
 
       taskcheck.addEventListener('change', () => {
-        // TODO: Tima has to add functionality to the function
-        console.log('task status change', taskcheck.checked)
         chekingTask(task.id)
       })
 
       let tasktext = document.createElement("input");
       tasktext.type = "text";
-      task.id = item.id;
       tasktext.classList.add("tasktext", "form-control", "fs-5");
       task.appendChild(tasktext);
       tasktext.value = item.text
       document.getElementsByTagName("body")[0].appendChild(taskbg);
-      tasktext.addEventListener("keyup",function(id){
-        taskarray.forEach(function(task,index){
-        task.text = tasktext.value
-        localStorage.setItem("taskarray", JSON.stringify(taskarray))
+      tasktext.addEventListener('keyup',function(e){
+        changingTask(task.id, e.target.value)
       })
+
+      let taskimportant = document.createElement("button");
+      taskimportant.textContent = item.imp;
+      taskimportant.classList.add('taskimportant',"d-flex",'btn',"fs-2")
+      if(item.imp ==="★") {
+        task.classList.add('important')
+      }
+      task.appendChild(taskimportant);
+      taskimportant.addEventListener('click',function(){
+        task.classList.toggle('important')
+        if(task.classList.contains("important")){
+          item.imp = '★';
+          taskimportant.textContent = '★';
+          localStorage.setItem("taskarray", JSON.stringify(taskarray))
+        } else {
+          item.imp = '☆'
+          taskimportant.textContent = '☆';
+          localStorage.setItem("taskarray", JSON.stringify(taskarray))
+        }
       })
 
       let tasktime = document.createElement("div");
@@ -150,12 +174,13 @@
         text: item.text,
         check: item.checked,
         date: tasktime.textContent,
-        id: task.id
+        id: task.id,
+        imp: item.imp,
       };
 
 
       return taskinfo
-    }
+    }}
 
     function saveTask(task) {
       taskarray.push(task);
@@ -180,6 +205,17 @@
         }
       })
     }
+
+    function changingTask(id,text){
+      console.log('text check',text)
+      taskarray.forEach(function(task,index){
+        if(task.id == id){
+          task.text = text;
+          localStorage.setItem("taskarray", JSON.stringify(taskarray))
+        }
+      })
+    }
+
 
   </script>
 </body>

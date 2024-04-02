@@ -116,7 +116,8 @@ dltall.addEventListener('click', function(){
       let task = Maketask({
         text: textinput.value,
         checked: false,
-        id: crypto.randomUUID()
+        id: crypto.randomUUID(),
+        imp:"☆"
       }, taskarray.length)
 
       saveTask(task)
@@ -147,6 +148,7 @@ dltall.addEventListener('click', function(){
 
       let taskcheck = document.createElement("input");
       taskcheck.type = "checkbox";
+      taskcheck.name = "taskcheck"
       taskcheck.classList.add(
         "taskcheck",
         "form-check-input",
@@ -157,7 +159,6 @@ dltall.addEventListener('click', function(){
       taskcheck.checked = item.check
 
       taskcheck.addEventListener('change', () => {
-        // TODO: Tima has to add functionality to the function
         chekingTask(task.id)
       })
 
@@ -173,10 +174,25 @@ dltall.addEventListener('click', function(){
         changingTask(task.id, e.target.value)
       })
 
-      let taskimprortant = document.createElement("button");
-      taskimprortant.textContent = '☆';
-      taskimprortant.classList.add('taskimportant',"d-flex",'btn',"fs-2")
-      task.appendChild(taskimprortant);
+      let taskimportant = document.createElement("button");
+      taskimportant.textContent = item.imp;
+      taskimportant.classList.add('taskimportant',"d-flex",'btn',"fs-2")
+      if(item.imp ==="★") {
+        task.classList.add('important')
+      }
+      task.appendChild(taskimportant);
+      taskimportant.addEventListener('click',function(){
+        task.classList.toggle('important')
+        if(task.classList.contains("important")){
+          item.imp = '★';
+          taskimportant.textContent = item.imp;
+          localStorage.setItem("taskarray", JSON.stringify(taskarray))
+        } else {
+          item.imp = '☆'
+          taskimportant.textContent = item.imp;
+          localStorage.setItem("taskarray", JSON.stringify(taskarray))
+        }
+      })
 
       let tasktime = document.createElement("div");
       task.appendChild(tasktime);
@@ -197,7 +213,8 @@ dltall.addEventListener('click', function(){
         text: item.text,
         check: item.checked,
         date: tasktime.textContent,
-        id: task.id
+        id: task.id,
+        imp: item.imp
       };
 
 
