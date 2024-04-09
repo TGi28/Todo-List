@@ -8,6 +8,12 @@
 <body background="background(Project-1).jpg">
     <div x-data="{message: ''}">
         <input type="text" x-model="message">
+        <div x-data="{
+            tasktext: message,
+        taskcheck: check,
+    }">
+            <button @click="">Add</button>
+        </div>
     </div>
 </body>
 
