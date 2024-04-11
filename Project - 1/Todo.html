@@ -7,24 +7,33 @@
 </head>
 
 <body>
-    <div x-data="{message: ''}">
-        <input type="text" x-model="message">
-
-        <div x-data="tasks = []">
-            <button @click="function addTask(){
-                tasks.push(taskinfo)
-            }, console.log(taskinfo,taskinfo.tasktext,tasks,message)">Add</button>
-            <div class="d-flex flex-row " x-data="taskinfo ={
-                tasktext: text
-            }">
-                <template x-for="task in tasks">
-                    <div x-text="task"></div>
-                </template>
-            </div>
-            </div>
-    </div>
     <script>
+        function addTask() {
+            return {
+                tasks: [],
+                message:'',
+                saveTask() {
+                   let task = {
+                    name: this.message,
+                    status: false
+                    }
+                this.tasks.push(task);
+                this.message = ''
+                }
+            }
+        }
     </script>
+    <div x-data="addTask()">
+        <input type="text" x-model="message">
+        <button @click="saveTask()">Add</button>
+        <template x-for="task in tasks">
+            <div class="d-flex">
+            <input type="checkbox" name="taskcheck">
+            <div x-text="task.name" contenteditable="true"></div>
+            <button>✖</button>
+        </div>
+        </template>
+    </div>
 </body>
 
 </html>
