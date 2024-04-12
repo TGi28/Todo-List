@@ -1,0 +1,37 @@
+.addBtn {
+    padding: 8px;
+    margin-top: 3%;
+    margin-left: 0.5%
+}
+
+.tasktext {
+    width: 100%;
+}
+
+.taskbody {
+    height: 3.2rem;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.addinput {
+    margin-top: 3%;
+    width: 500px;
+    height: auto
+}
+
+.taskcheck {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+  }
+
+.tasktime {
+    text-align: center;
+}
+
+.taskdelete {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
