@@ -12,7 +12,7 @@
         function addTask() {
             return {
                 tasks: [],
-                message:'',
+                message:"",
                 saveTask() {
                    let task = {
                     name: this.message,
@@ -21,7 +21,7 @@
                     time: new Date()
                     }
                 this.tasks.push(task);
-                this.message = ''
+                this.message = ""
                 }
             }
         }
@@ -32,10 +32,12 @@
   </div>
     <div x-data="addTask()">
     <div class="d-flex flex-row justify-content-center">
-        <input type="text" x-model="message" class="p-2 rounded border border-black form-control fw-bold addinput" type="text" id="textinput" autocomplete="off" @keyup="">
-        <button @click="saveTask()" class="bg-warning rounded btn fw-bold addBtn" id="addtask">Add</button>
+        <input type="text" x-model="message" class="p-2 rounded border border-black form-control fw-bold addinput"
+        id="textinput"
+        autocomplete="off">
+        <button @click="saveTask()" class="bg-warning rounded btn fw-bold addbtn" id="addtask">Add</button>
     </div>
-    <template x-for="task in tasks">
+    <template x-for="task in tasks" :key="task.id">
         <div class="taskbg d-flex align-items-stretch">
             <div class="d-flex taskbody d-flex mt-4 align-items-center w-100 bg-warning">
                 <input type="checkbox" name="taskcheck" class="taskcheck form-check-input d-flex mt-0">

@@ -1,4 +1,4 @@
-.addBtn {
+.addbtn {
     padding: 8px;
     margin-top: 3%;
     margin-left: 0.5%
@@ -34,4 +34,9 @@
 .taskdelete {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
+  }
+
+input[name="taskcheck"]:checked + .tasktext {
+    text-decoration: line-through;
+    pointer-events: none;
   }
