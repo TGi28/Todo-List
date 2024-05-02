@@ -20,6 +20,13 @@
     height: auto
 }
 
+.taskimportant {
+    border: hidden;
+    background: none;
+    margin-left: 0.5rem;
+    padding: 0;
+  }
+
 .taskcheck {
     width: 1.5rem;
     height: 1.5rem;
