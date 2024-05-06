@@ -24,13 +24,15 @@
                     imp: '☆'
                     }
                 this.tasks.push(task);
-                this.message = ""
+                this.message = "";
+                this.localSaveTask()
                 },
                 deleteTask(index) {
                     this.tasks.splice(index, 1)
                 },
-                changeImportant() {
-                    
+                localSaveTask(){
+                    localStorage.setItem("tasks", JSON.stringify(this.tasks));
+                    console.log('working')
                 }
             }
         }
@@ -48,7 +50,7 @@
         <button @click="saveTask()" class="bg-warning rounded btn fw-bold addbtn" id="addtask">Add</button>
     </div>
     <template x-for="(task, index) in tasks" :key="index">
-        <div class="taskbg d-flex align-items-stretch">
+        <div class="taskbg d-flex align-items-stretch" id="task.id">
             <div class="d-flex taskbody d-flex mt-4 align-items-center w-100 bg-warning">
                 <input type="checkbox" name="taskcheck" class="taskcheck form-check-input d-flex mt-0">
                 <div x-text="task.name" contenteditable="true" class="tasktext form-control fs-5"></div>
