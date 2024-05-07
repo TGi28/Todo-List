@@ -13,7 +13,7 @@
     <script>
         function addTask() {
             return {
-                tasks: [],
+                tasks: JSON.parse(localStorage.getItem('tasks')) || [],
                 message:"",
                 saveTask() {
                    let task = {
@@ -29,10 +29,10 @@
                 },
                 deleteTask(index) {
                     this.tasks.splice(index, 1)
+                    localStorage.setItem("tasks", JSON.stringify(this.tasks));
                 },
                 localSaveTask(){
                     localStorage.setItem("tasks", JSON.stringify(this.tasks));
-                    console.log('working')
                 }
             }
         }
@@ -51,11 +51,11 @@
     </div>
     <template x-for="(task, index) in tasks" :key="index">
         <div class="taskbg d-flex align-items-stretch" id="task.id">
-            <div class="d-flex taskbody d-flex mt-4 align-items-center w-100 bg-warning">
-                <input type="checkbox" name="taskcheck" class="taskcheck form-check-input d-flex mt-0">
+            <div x-data="{show: task.status}" class="d-flex taskbody d-flex mt-4 align-items-center w-100 bg-warning">
+                <input type="checkbox" name="taskcheck" class="taskcheck form-check-input d-flex mt-0" x-model="show" @change="task.status = !task.status, localSaveTask()">
                 <div x-text="task.name" contenteditable="true" class="tasktext form-control fs-5"></div>
                 <button x-text="task.imp" class="taskimportant d-flex btn fs-2"></button>
-                <div x-text="task.time.toLocaleString()" class="tasktime fw-medium"></div>
+                <div x-data="{time: task.time.toLocaleString()}" x-text="task.time.toLocaleString()" class="tasktime fw-medium"></div>
                 <button class="taskdelete d-flex btn btn-light" @click="deleteTask(index)">✖</button>
             </div>
        </div>
