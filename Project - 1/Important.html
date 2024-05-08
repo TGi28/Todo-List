@@ -22,7 +22,7 @@
                     status: false,
                     id: crypto.randomUUID(),
                     localtime: this.time.toLocaleString(),
-                    imp: false
+                    imp: true
                     }
                 this.tasks.push(task);
                 this.message = "";
@@ -35,52 +35,36 @@
                 localSaveTask(){
                     localStorage.setItem("tasks", JSON.stringify(this.tasks));
                 },
-                emptyArray() {
-                  while (this.tasks.length > 0) {
-                    this.tasks.pop();
-                  }
-                  localStorage.clear()
-                }
             }
         }
     </script>
     <div x-data="addTask()">
     <nav class="navbar navbar-expand-lg">
-        <div class="container" id="mycontainer">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav" id="allnav">
-              <li class="nav-item" id="home">
-                <a class="nav-link active text-warning fs-4" aria-current="page" href="">Home</a>
-              </li>
-              <li class="nav-item" id="important">
-                <a class="nav-link text-white fs-4" href="Important.html">Important</a>
-              </li>
-            </ul>
-          </div>
-          <button class="btn btn-danger" id="delbtn" @click="emptyArray()">Delete all tasks</button>
-        </div>
-      </nav>
+      <div class="container" id="mycontainer">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav" id="allnav">
+            <li class="nav-item" id="home">
+              <a class="nav-link active text-white fs-4" aria-current="page" href="Todo.html">Home</a>
+            </li>
+            <li class="nav-item" id="important">
+              <a class="nav-link text-warning fs-4" href="">Important</a>
+            </li>
+          </ul>
+    </nav>
     <div class="p-2 container-fluid text-uppercase fs-1 fw-bold rounded text-white"
-    style="text-align: center; margin-top: 3%; width: 25%">
-    Todo list
+    style="text-align: center; margin-top: 3%">
+    Todo <span class="text-warning">important</span> list
   </div>
-    <div class="d-flex flex-row justify-content-center">
-        <input type="text" x-model="message" class="p-2 rounded border border-black form-control fw-bold addinput"
-        id="textinput"
-        autocomplete="off"
-        @keyup.enter="saveTask()">
-        <button @click="saveTask()" class="bg-warning rounded btn fw-bold addbtn" id="addtask">Add</button>
-    </div>
     <template x-for="(task, index) in tasks" :key="index">
-        <div class="taskbg d-flex align-items-stretch" id="task.id">
+        <div class="taskbg d-flex align-items-stretch" id="task.id" x-data="{important: task.imp}" :class="important || 'visually-hidden'">
             <div x-data="{show: task.status}" class="d-flex taskbody d-flex mt-4 align-items-center w-100 bg-warning">
                 <input type="checkbox" name="taskcheck" class="taskcheck form-check-input d-flex mt-0" x-model="show" @change="task.status = !task.status, localSaveTask()">
                 <input x-data="{name: task.name}" x-model="name" x-text="name" type="text" class="tasktext form-control fs-5" @keyup="task.name = name; localSaveTask()">
-                <button x-data="{show: task.imp}" @click="show = !show;task.imp = !task.imp ;localSaveTask()" x-text="show ? '★' : '☆'" class="taskimportant d-flex btn fs-2">imp</button>
+                <button @click="important = !important;task.imp = !task.imp ;localSaveTask()" x-text="important ? '★' : '☆'" class="taskimportant d-flex btn fs-2">imp</button>
                 <div x-text="task.localtime" class="tasktime fw-medium d-flex"></div>
                 <button class="taskdelete d-flex btn btn-light" @click="deleteTask(index)">✖</button>
             </div>
