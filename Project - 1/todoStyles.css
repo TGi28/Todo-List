@@ -1,6 +1,5 @@
 .addbtn {
     padding: 8px;
-    margin-top: 3%;
     margin-left: 0.5%
 }
 
@@ -15,7 +14,6 @@
 }
 
 .addinput {
-    margin-top: 3%;
     width: 500px;
     height: auto
 }
@@ -48,3 +46,7 @@ input[name="taskcheck"]:checked + .tasktext {
     text-decoration: line-through;
     pointer-events: none;
   }
+
+.title {
+  font-size: 3rem;
+}
