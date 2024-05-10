@@ -6,6 +6,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="todoStyles.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/sort@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
@@ -71,7 +72,7 @@
     style="text-align: center; margin-top: 3%; width: 25%">
     Todo list
   </div>
-    <div class="d-flex justify-content-center align-items-center">
+    <div class="d-flex justify-content-center align-items-center mb-4">
         <input type="text" x-model="message" class="p-2 rounded border border-black form-control fw-bold addinput"
         id="textinput"
         autocomplete="off"
@@ -81,7 +82,7 @@
     </div>
     <template x-for="(task, index) in tasks" :key="task.id">
         <div class="taskbg d-flex align-items-stretch" id="task.id">
-            <div x-data="{show: task.status}" class="d-flex taskbody d-flex mt-4 align-items-center w-100 bg-warning">
+            <div x-data="{show: task.status}" class="d-flex taskbody d-flex align-items-center w-100 bg-warning">
                 <input type="checkbox" name="taskcheck" class="taskcheck form-check-input d-flex mt-0" x-model="show" @change="task.status = !task.status, localSaveTask()">
                 <input x-data="{name: task.name}" x-model="name" x-text="name" type="text" class="tasktext form-control fs-5" @keyup="task.name = name; localSaveTask()">
                 <button x-data="{show: task.imp}" @click="show = !show;task.imp = !task.imp ;localSaveTask()" x-text="show ? '★' : '☆'" class="taskimportant d-flex btn fs-2">imp</button>
