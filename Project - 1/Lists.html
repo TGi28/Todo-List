@@ -22,13 +22,12 @@
                     listname: this.message,
                     tasks: [
                     task = {
-                    taskname: this.message,
+                    taskname: '',
                     status: false,
                     id: crypto.randomUUID(),
                     localtime: this.time.toLocaleString(),
                     imp: false
-                    }
-                    ],
+                    }],
                     id: crypto.randomUUID()
                   }
                   this.lists.push(list)
@@ -96,9 +95,9 @@
       <li>
         <div class="taskbg d-flex align-items-center" id="task.id">
           <div x-data="{show: task.status}" class="d-flex taskbody d-flex align-items-center w-100 bg-warning">
-                <input type="checkbox" name="taskcheck" class="taskcheck form-check-input d-flex mt-0" x-model="show" @change="task.status = !task.status, localSaveTask()">
-                <input x-data="{name: task.name}" x-model="name" x-text="name" type="text" class="tasktext form-control fs-5" @keyup="task.name = name; localSaveTask()">
-                <button x-data="{show: task.imp}" @click="show = !show;task.imp = !task.imp ;localSaveTask()" x-text="show ? '★' : '☆'" class="taskimportant d-flex btn fs-2">imp</button>
+                <input type="checkbox" name="taskcheck" class="taskcheck form-check-input d-flex mt-0" x-model="show" @change="task.status = !task.status, localSaveList()">
+                <input x-data="{name: task.taskname}" x-model="name" x-text="name" type="text" class="tasktext form-control fs-5" @keyup="task.name = name; localSaveList()">
+                <button x-data="{show: task.imp}" @click="show = !show;task.imp = !task.imp ;localSaveList()" x-text="show ? '★' : '☆'" class="taskimportant d-flex btn fs-2">imp</button>
                 <div x-text="task.localtime" class="tasktime fw-medium d-flex"></div>
                 <button type="button" class="taskdelete d-flex btn btn-light" @click="deleteTask(index)">✖</button>
             </div>

@@ -14,33 +14,36 @@
     <script>
         function addTask() {
             return {
-                tasks: JSON.parse(localStorage.getItem('tasks')) || [],
+                lists: JSON.parse(localStorage.getItem('lists')) || [],
                 message:"",
                 time: new Date(),
-                saveTask() {
-                   let task = {
-                    name: this.message,
+                saveList(){
+                  let list = {
+                    listname: '',
+                    tasks: [
+                    task = {
+                    taskname: this.message,
                     status: false,
-                    id: crypto.randomUUID(),
+                    taskid: crypto.randomUUID(),
                     localtime: this.time.toLocaleString(),
                     imp: false
-                    }
-                this.tasks.push(task);
-                this.message = "";
-                this.localSaveTask()
+                    }],
+                    listid: crypto.randomUUID()
+                  }
+                  this.lists.push(list)
+                  this.message = "";
+                  this.localSaveList()
                 },
                 deleteTask(index) {
                     this.tasks.splice(index, 1)
                     localStorage.setItem("tasks", JSON.stringify(this.tasks));
                 },
-                localSaveTask(){
-                    localStorage.setItem("tasks", JSON.stringify(this.tasks));
+                deleteList(index) {
+                  this.lists.splice(index, 1)
+                  localStorage.setItem("lists", JSON.stringify(this.lists));
                 },
-                emptyArray() {
-                  while (this.tasks.length > 0) {
-                    this.tasks.pop();
-                  }
-                  localStorage.clear()
+                localSaveList(){
+                  localStorage.setItem("lists", JSON.stringify(this.lists));
                 }
             }
         }
@@ -76,21 +79,34 @@
         <input type="text" x-model="message" class="p-2 rounded border border-black form-control fw-bold addinput"
         id="textinput"
         autocomplete="off"
-        @keyup.enter="saveTask()"
+        @keyup.enter="saveList()"
         placeholder="Create a task...">
-        <button @click="saveTask()" class="bg-warning rounded btn fw-bold addbtn" id="addtask">Add</button>
+        <button @click="saveList()" class="bg-warning rounded btn fw-bold addbtn" id="addtask">Add</button>
     </div>
-    <template x-for="(task, index) in tasks" :key="task.id">
-        <div class="taskbg d-flex align-items-stretch" id="task.id">
+  </div>
+  <ul class="bg-dark-subtle list mt-3 rounded">
+  <template x-for="list in lists" :key="list.listid">
+    <li class="" id="list.listid">
+      <div class="d-flex justify-content-center">
+        <div x-text="list.listname" class="fw-bold mt-2 listname d-flex"></div>
+        <button type="button" class="btn mt-2 dltlist d-flex" aria-label="Close" @click="deleteList()">⨉</button>
+      </div>
+    </li>
+  <template x-for="(task, index) in list.tasks" :key="task.taskid">
+  <li>
+        <div class="taskbg d-flex align-items-stretch" id="task.taskid">
             <div x-data="{show: task.status}" class="d-flex taskbody d-flex align-items-center w-100 bg-warning">
                 <input type="checkbox" name="taskcheck" class="taskcheck form-check-input d-flex mt-0" x-model="show" @change="task.status = !task.status, localSaveTask()">
-                <input x-data="{name: task.name}" x-model="name" x-text="name" type="text" class="tasktext form-control fs-5" @keyup="task.name = name; localSaveTask()">
+                <input x-data="{name: task.taskname}" x-model="name" x-text="name" type="text" class="tasktext form-control fs-5" @keyup="task.name = name; localSaveTask()">
                 <button x-data="{show: task.imp}" @click="show = !show;task.imp = !task.imp ;localSaveTask()" x-text="show ? '★' : '☆'" class="taskimportant d-flex btn fs-2">imp</button>
                 <div x-text="task.localtime" class="tasktime fw-medium d-flex"></div>
-                <button type="button" class="taskdelete d-flex btn btn-light" @click="deleteTask(index)" data-bs-toggle="tooltip">✖</button>
+                <button type="button" class="taskdelete d-flex btn btn-light" @click="deleteTask(index)">✖</button>
             </div>
-       </div>
+          </div>
+        </li>
+      </template>
     </template>
+  </ul>
  </div>
 </body>
 
