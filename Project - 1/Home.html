@@ -14,41 +14,42 @@
     <script>
         function addTask() {
             return {
-                lists: JSON.parse(localStorage.getItem('lists')) || [],
-                message:"",
-                time: new Date(),
-                saveList(){
-                  let list = {
-                    listname: 'Current',
-                    tasks: [
-                    task = {
-                    taskname: this.message,
-                    status: false,
-                    taskid: crypto.randomUUID(),
-                    localtime: this.time.toLocaleString(),
-                    imp: false
-                    }],
-                    listid: crypto.randomUUID()
+              lists:{},
+              currentList: 'default',
+              message: '',
+              time: new Date(),
+              createTask(){
+                let task = {
+                  taskname: this.message,
+                  status: false,
+                  id: crypto.randomUUID(),
+                  localtime: this.time.toLocaleString(),
+                  imp: false
+                }
+                this.lists[this.currentList].tasks.push(task)
+                localStorage.setItem("lists", JSON.stringify(this.lists));
+                this.message = ""
+              },
+              init() {
+                let lists = localStorage.getItem('lists') ||  null
+                if (lists) {
+                  this.lists = JSON.parse(lists)
+                } else  {
+                  this.lists.default = {
+                    name: 'Default',
+                    tasks: []
                   }
-                  this.tasks.push(task)
-                  this.message = "";
-                  this.localSaveList()
-                },
-                deleteTask(index) {
-                    this.tasks.splice(index, 1)
-                    localStorage.setItem("tasks", JSON.stringify(this.tasks));
-                },
-                deleteList(index) {
-                  this.lists.splice(index, 1)
+
                   localStorage.setItem("lists", JSON.stringify(this.lists));
-                },
-                localSaveList(){
-                  localStorage.setItem("lists", JSON.stringify(this.lists));
-                },
-            }
+                }
+            },
+              deleteTask(key, index) {
+                    this.lists[key].tasks.splice(index, 1)
+                    localStorage.setItem("lists", JSON.stringify(this.lists));
+                }
+          }
         }
     </script>
-  <div x-data="addTask()">
     <nav class="navbar navbar-expand-lg">
         <div class="container" id="mycontainer">
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -71,6 +72,7 @@
           <button class="btn btn-danger" id="delbtn" @click="emptyArray()">Delete all tasks</button>
         </div>
       </nav>
+  <div x-data="addTask()">
     <div class="p-2 container-fluid text-uppercase fw-bold rounded text-white title"
     style="text-align: center; margin-top: 3%; width: 25%">
     Todo list
@@ -79,21 +81,21 @@
         <input type="text" x-model="message" class="p-2 rounded border border-black form-control fw-bold addinput"
         id="textinput"
         autocomplete="off"
-        @keyup.enter="saveList()"
+        @keyup.enter="createTask"
         placeholder="Create a task...">
-        <button @click="saveList()" class="bg-warning rounded btn fw-bold addbtn" id="addtask">Add</button>
+        <button @click="createTask" class="bg-warning rounded btn fw-bold addbtn" id="addtask">Add</button>
     </div>
   <ul>
-  <template x-for="(list, index) in lists">
-    <template x-for="(task, index) in list.tasks" :key="task.taskid">
-      <li id="task.taskid">
-        <div class="taskbg d-flex align-items-stretch">
+  <template x-for="(list, key) in lists" :key="key">
+    <template x-for="(task, index) in list.tasks" :key="task.id">
+      <li>
+        <div class="taskbg d-flex align-items-stretch" id="task.id">
             <div x-data="{show: task.status}" class="d-flex taskbody d-flex align-items-center w-100 bg-warning">
                 <input type="checkbox" name="taskcheck" class="taskcheck form-check-input d-flex mt-0" x-model="show" @change="task.status = !task.status, localSaveTask()">
                 <input x-data="{name: task.taskname}" x-model="name" x-text="name" type="text" class="tasktext form-control fs-5" @keyup="task.name = name; localSaveTask()">
                 <button x-data="{show: task.imp}" @click="show = !show;task.imp = !task.imp ;localSaveTask()" x-text="show ? '★' : '☆'" class="taskimportant d-flex btn fs-2">imp</button>
                 <div x-text="task.localtime" class="tasktime fw-medium d-flex"></div>
-                <button type="button" class="taskdelete d-flex btn btn-light" @click="deleteTask(index)">✖</button>
+                <button type="button" class="taskdelete d-flex btn btn-light" @click="deleteTask(key,index)">✖</button>
             </div>
         </div>
       </li>
