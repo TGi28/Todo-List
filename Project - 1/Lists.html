@@ -85,7 +85,7 @@
     </div>
       <template x-for="list in lists" :key="list.id">
         <ul id="list.id" class="bg-dark-subtle list mt-3 rounded">
-          <li class="">
+          <li>
             <div class="d-flex justify-content-center">
               <div x-text="list.listname" class="fw-bold mt-2 listname d-flex"></div>
               <button type="button" class="btn mt-2 dltlist d-flex" aria-label="Close" @click="deleteList()">⨉</button>

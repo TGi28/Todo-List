@@ -19,7 +19,7 @@
                 time: new Date(),
                 saveList(){
                   let list = {
-                    listname: '',
+                    listname: 'Current',
                     tasks: [
                     task = {
                     taskname: this.message,
@@ -30,7 +30,7 @@
                     }],
                     listid: crypto.randomUUID()
                   }
-                  this.lists.push(list)
+                  this.tasks.push(task)
                   this.message = "";
                   this.localSaveList()
                 },
@@ -44,11 +44,11 @@
                 },
                 localSaveList(){
                   localStorage.setItem("lists", JSON.stringify(this.lists));
-                }
+                },
             }
         }
     </script>
-    <div x-data="addTask()">
+  <div x-data="addTask()">
     <nav class="navbar navbar-expand-lg">
         <div class="container" id="mycontainer">
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -83,18 +83,11 @@
         placeholder="Create a task...">
         <button @click="saveList()" class="bg-warning rounded btn fw-bold addbtn" id="addtask">Add</button>
     </div>
-  </div>
-  <ul class="bg-dark-subtle list mt-3 rounded">
-  <template x-for="list in lists" :key="list.listid">
-    <li class="" id="list.listid">
-      <div class="d-flex justify-content-center">
-        <div x-text="list.listname" class="fw-bold mt-2 listname d-flex"></div>
-        <button type="button" class="btn mt-2 dltlist d-flex" aria-label="Close" @click="deleteList()">⨉</button>
-      </div>
-    </li>
-  <template x-for="(task, index) in list.tasks" :key="task.taskid">
-  <li>
-        <div class="taskbg d-flex align-items-stretch" id="task.taskid">
+  <ul>
+  <template x-for="(list, index) in lists">
+    <template x-for="(task, index) in list.tasks" :key="task.taskid">
+      <li id="task.taskid">
+        <div class="taskbg d-flex align-items-stretch">
             <div x-data="{show: task.status}" class="d-flex taskbody d-flex align-items-center w-100 bg-warning">
                 <input type="checkbox" name="taskcheck" class="taskcheck form-check-input d-flex mt-0" x-model="show" @change="task.status = !task.status, localSaveTask()">
                 <input x-data="{name: task.taskname}" x-model="name" x-text="name" type="text" class="tasktext form-control fs-5" @keyup="task.name = name; localSaveTask()">
@@ -102,10 +95,10 @@
                 <div x-text="task.localtime" class="tasktime fw-medium d-flex"></div>
                 <button type="button" class="taskdelete d-flex btn btn-light" @click="deleteTask(index)">✖</button>
             </div>
-          </div>
-        </li>
-      </template>
+        </div>
+      </li>
     </template>
+  </template>
   </ul>
  </div>
 </body>
