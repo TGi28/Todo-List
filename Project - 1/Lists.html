@@ -14,44 +14,45 @@
     <script>
         function addTask() {
             return {
-                lists: JSON.parse(localStorage.getItem('lists')) || [],
-                message:"",
-                time: new Date(),
-                saveList(){
+              lists:{},
+              message: '',
+              time: new Date(),
+              createList(){
+                let listid = crypto.randomUUID()
                   let list = {
-                    listname: this.message,
-                    tasks: [
-                    task = {
-                    taskname: '',
-                    status: false,
-                    id: crypto.randomUUID(),
-                    localtime: this.time.toLocaleString(),
-                    imp: false
-                    }],
-                    id: crypto.randomUUID()
+                    name: this.message,
+                    tasks: []
                   }
-                  this.lists.push(list)
-                  this.message = "";
-                  this.localSaveList()
-                },
-                deleteTask(index) {
-                    this.tasks.splice(index, 1)
-                    localStorage.setItem("tasks", JSON.stringify(this.tasks));
-                },
-                deleteList(index) {
-                  this.lists.splice(index, 1)
+                  this.currentList = listid
+                  this.lists[listid] = list
                   localStorage.setItem("lists", JSON.stringify(this.lists));
-                },
-                localSaveTask(){
-                    localStorage.setItem("tasks", JSON.stringify(this.tasks));
+                this.message = ""
+              },
+              init() {
+                let lists = localStorage.getItem('lists') ||  null
+                if (lists) {
+                  this.lists = JSON.parse(lists)
+                } else {
+                  let list = {
+                    name: 'Default',
+                    tasks: []
+                  }
+                  this.currentList = 'default'
+                  this.lists.default = list
+                  localStorage.setItem("lists", JSON.stringify(this.lists));
+                }
+              },
+                deleteTask(key, index) {
+                    this.lists[key].tasks.splice(index, 1)
+                    localStorage.setItem("lists", JSON.stringify(this.lists));
                 },
                 localSaveList(){
                   localStorage.setItem("lists", JSON.stringify(this.lists));
                 }
-            }
+          }
         }
     </script>
-  <div x-data="addTask()">
+  <div x-data="addTask">
     <nav class="navbar navbar-expand-lg">
       <div class="container" id="mycontainer">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -79,15 +80,15 @@
       <input type="text" x-model="message" class="p-2 rounded border border-black form-control fw-bold addinput"
       id="textinput"
       autocomplete="off"
-      @keyup.enter="saveList()"
+      @keyup.enter="createList"
       placeholder="Name the list...">
-      <button @click="saveList()" class="bg-warning rounded btn fw-bold addbtn" id="addtask">Create</button>
+      <button @click="createList" class="bg-warning rounded btn fw-bold addbtn" id="addtask">Create</button>
     </div>
-      <template x-for="list in lists" :key="list.id">
-        <ul id="list.id" class="bg-dark-subtle list mt-3 rounded">
+      <template x-for="(list, key) in lists" :key="key">
+        <ul id="key" class="bg-dark-subtle list mt-3 rounded">
           <li>
             <div class="d-flex justify-content-center">
-              <div x-text="list.listname" class="fw-bold mt-2 listname d-flex"></div>
+              <div x-text="list.name" class="fw-bold mt-2 listname d-flex"></div>
               <button type="button" class="btn mt-2 dltlist d-flex" aria-label="Close" @click="deleteList()">⨉</button>
             </div>
           </li>

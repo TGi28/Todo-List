@@ -69,3 +69,11 @@ input[name="taskcheck"]:checked + .tasktext {
   margin-left: 0.5rem;
 }
 
+.dropup .dropdown-toggle::after {
+  margin-left: 0;
+}
+
+.dropup {
+  margin-left: 0.5rem;
+}
+
