@@ -16,7 +16,8 @@
 
 .addinput {
     width: 500px;
-    height: auto
+    height: auto;
+    
 }
 
 .taskimportant {
@@ -43,17 +44,11 @@
     margin-right: 0.5rem;
   }
 
-input[name="taskcheck"]:checked + .tasktext {
-    text-decoration: line-through;
-    pointer-events: none;
-  }
-
 .title {
   font-size: 3rem;
 }
 
 .list {
-  list-style-type: none;
   padding-left: 0;
   margin-left: 12%;
   margin-right: 12%;
@@ -77,3 +72,6 @@ input[name="taskcheck"]:checked + .tasktext {
   margin-left: 0.5rem;
 }
 
+li {
+  list-style-type: none;
+}
