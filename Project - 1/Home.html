@@ -51,12 +51,6 @@
                 },
                 localSaveList(){
                   localStorage.setItem("lists", JSON.stringify(this.lists));
-                },
-                emptyArray(key, index) {
-                  while(this.lists.length > 0) {
-                    this.lists[key].tasks.splice(index, 1)
-                    localStorage.clear()
-                  }
                 }
           }
         }
@@ -80,7 +74,6 @@
               </li>
             </ul>
           </div>
-          <button class="btn btn-danger" id="delbtn" @click="emptyArray(key, index)">Delete all tasks</button>
         </div>
       </nav>
   <div x-data="addTask()">
@@ -109,8 +102,8 @@
   <ul x-sort>
   <template x-for="(list, key) in lists" :key="key">
     <template x-for="(task, index) in list.tasks" :key="task.id">
-      <li @mouseup="localSaveList()" :class="task.imp ? 'common' : ''" x-sort:item>
-        <div class="taskbg d-flex align-items-stretch" id="task.id">
+      <li @dragend="localSaveList(), console.log('fired')" :class="task.imp ? 'common' : ''" x-sort:item="key">
+        <div class="taskbg d-flex align-items-stretch">
             <div class="taskbody d-flex align-items-center w-100 bg-warning">
                 <input type="checkbox" name="taskcheck" class="taskcheck form-check-input d-flex mt-0" @change="task.status = !task.status; localSaveList()" :checked="task.status">
                 <input x-data="{name: task.name}" x-model="name" x-text="name" type="text" class="tasktext form-control fs-5" @keyup="task.name = name; localSaveList()" :class="task.status ? 'text-decoration-line-through pe-none' : ''">

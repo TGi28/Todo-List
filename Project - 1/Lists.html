@@ -6,6 +6,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="todoStyles.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/sort@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
@@ -24,7 +25,8 @@
                 let listid = crypto.randomUUID()
                   let list = {
                     name: this.message,
-                    tasks: []
+                    tasks: [],
+                    expanded: false
                   }
                   this.currentList = listid
                   this.lists[listid] = list
@@ -38,7 +40,8 @@
                 } else {
                   this.lists.default = {
                     name: 'Default',
-                    tasks: []
+                    tasks: [],
+                    expanded: false
                   }  
                   localStorage.setItem("lists", JSON.stringify(this.lists));
                 }
@@ -57,7 +60,6 @@
           }
         }
     </script>
-  <div x-data="addTask">
     <nav class="navbar navbar-expand-lg">
       <div class="container" id="mycontainer">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -80,6 +82,7 @@
         <button class="btn btn-danger" id="delbtn" @click="emptyArray()">Delete all tasks</button>
       </div>
     </nav>
+  <div x-data="addTask">
     <div class="p-2 container-fluid text-uppercase fw-bold rounded text-white title"
     style="text-align: center; margin-top: 3%">
     Todo <span class="text-warning">lists</span> 
@@ -104,13 +107,19 @@
       <template x-for="(list, key) in lists" :key="key">
         <ul id="key" class="bg-dark-subtle list mt-3 rounded">
           <li>
-            <div class="d-flex justify-content-center">
-              <div x-text="list.name" class="fw-bold mt-2 listname d-flex"></div>
-              <button type="button" class="btn mt-2 dltlist d-flex" aria-label="Close" @click="deleteList(key)" :class="list.name == 'Default' ? 'd-none' : ''">⨉</button>
+            <div class="d-flex justify-content-center align-items-center">
+              <div class="dropdown d-flex expand me-auto ms-2">
+                <button class="btn btn-secondary" type="button" @click="list.expanded = !list.expanded; localSaveList()" x-text="list.expanded ? 'Close list' : 'Open list'">
+                </button>
+              </div>
+              <div class="bg-warning d-flex rounded mt-2 me-2 mb-2">
+              <div x-text="list.name" class="fw-bold mt-2 listname d-flex p-1"></div>
+              <button type="button" class="btn mt-2 me-1 dltlist d-flex p-1" aria-label="Close" @click="deleteList(key)" :class="list.name == 'Default' ? 'd-none' : ''">⨉</button>
+               </div>
             </div>
           </li>
       <template x-for="(task, index) in list.tasks" :key="task.id">
-      <li>
+      <li x-show="list.expanded" x-collapse>
         <div class="taskbg d-flex align-items-center" id="task.id">
           <div class="d-flex taskbody d-flex align-items-center w-100 bg-warning">
             <input type="checkbox" name="taskcheck" class="taskcheck form-check-input d-flex mt-0" @change="task.status = !task.status; localSaveList()" :checked="task.status">
