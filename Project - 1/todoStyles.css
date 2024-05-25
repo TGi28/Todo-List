@@ -76,3 +76,10 @@ li {
   list-style-type: none;
 }
 
+.dropend {
+  margin-left: 0.5rem;
+}
+
+/* #filter {
+  --bs-dropdown-min-width: unset
+} */

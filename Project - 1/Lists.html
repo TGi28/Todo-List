@@ -19,6 +19,7 @@
             return {
               lists:{},
               message: '',
+              findList:'',
               currentList: 'default',
               time: new Date(),
               createList(){
@@ -32,6 +33,7 @@
                   this.lists[listid] = list
                   localStorage.setItem("lists", JSON.stringify(this.lists));
                 this.message = ""
+                
               },
               init() {
                 let lists = localStorage.getItem('lists') ||  null
@@ -56,6 +58,11 @@
                 deleteList(key) {
                   delete this.lists[key]
                   localStorage.setItem("lists", JSON.stringify(this.lists));
+                },
+                get filterLists() {
+                  return this.lists.filter(
+                    i => i.startsWith(this.findList)
+                  )
                 }
           }
         }
@@ -103,6 +110,30 @@
           </template>
           </ul>
       </div>
+      <div class="dropend">
+      <template x-for="(list, key) in lists" :key="key">
+        <div x-data="{
+        search: '',
+ 
+        items: [list.name],
+ 
+        get filteredItems() {
+            return this.items.filter(
+                i => i.startsWith(this.search)
+            )
+        }
+    }">
+      </div>
+      </template>
+        <button class="btn btn-light dropdown-toggle align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false" ><img src="Filter.png" alt="">
+        </button>
+        <ul class="dropdown-menu" id="filter">
+
+            <li>
+              <input class="dropdown-item" x-model="search" placeholder="Search...">
+            </li>
+          </ul>
+      </div>  
     </div>
       <template x-for="(list, key) in lists" :key="key">
         <ul id="key" class="bg-dark-subtle list mt-3 rounded">
