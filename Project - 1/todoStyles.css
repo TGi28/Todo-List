@@ -80,6 +80,6 @@ li {
   margin-left: 0.5rem;
 }
 
-/* #filter {
-  --bs-dropdown-min-width: unset
-} */
+.search {
+  padding: 0;
+}
