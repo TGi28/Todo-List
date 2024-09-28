@@ -6,12 +6,12 @@
 .tasktext {
     width: 100%;
 }
-
 .taskbody {
     height: 3.2rem;
     margin-left: 15%;
     margin-right: 15%;
     margin-bottom: 1rem;
+    background: linear-gradient(to right, rgb(255, 149, 0), rgb(245, 218, 11));
 }
 
 .addinput {
@@ -61,7 +61,6 @@
 .dltlist {
   font-size: 2rem;
   padding: 0;
-  margin-left: 0.5rem;
 }
 
 .dropup .dropdown-toggle::after {
