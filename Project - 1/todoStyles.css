@@ -79,6 +79,25 @@ li {
   margin-left: 0.5rem;
 }
 
-.search {
-  padding: 0;
+.authorization {
+  background: linear-gradient(to left top, rgb(255, 149, 0), rgb(245, 218, 11));
+  border: none;
+  border-radius: 50px;
+  width: 66px;
+  height: 66px;
+  
 }
+
+.authorization-item:hover {
+  color: rgb(255, 149, 0);
+  --bs-dropdown-link-active-bg: rgb(245, 218, 11);
+}
+
+.dropdown-toggle::before {
+  border-top: none;
+}
+
+.auth-menu {
+  color:  rgb(255, 149, 0);
+}
+

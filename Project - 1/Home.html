@@ -1,127 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <title>Todo</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="todoStyles.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/sort@3.x.x/dist/cdn.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-</head>
+    <link
+      rel="stylesheet"
+      href=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="todoStyles.css" />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@alpinejs/sort@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
-<body background="background(Project-1).jpg">
+  <body background="background(Project-1).jpg">
     <script>
-        function addTask() {
-            return {
-              lists:{},
-              currentList: 'default',
-              message: '',
-              char: '',
-              createTask(){
-                let time = new Date()
-                let task = {
-                  name: this.message,
-                  status: false,
-                  id: crypto.randomUUID(),
-                  localtime: time.toLocaleString(),
-                  imp: false
-                }
-                this.lists[this.currentList].tasks.push(task)
-                this.message = "";
-                localStorage.setItem("lists", JSON.stringify(this.lists));
-              },
-              init() {
-                let lists = localStorage.getItem('lists') ||  null
-                if (lists) {
-                  this.lists = JSON.parse(lists)
-                } else  {
-                  this.lists.default = {
-                    name: 'Default',
-                    tasks: []
-                  }
+      function addTask() {
+        return {
+          lists: {},
+          currentList: "default",
+          message: "",
+          username: this.username,
+          email: this.email,
+          password: this.password,
+          createTask() {
+            let time = new Date();
+            let task = {
+              name: this.message,
+              status: false,
+              id: crypto.randomUUID(),
+              localtime: time.toLocaleString(),
+              imp: false,
+            };
+            this.users[this.lists[this.currentList]].tasks.push(task);
+            this.message = "";
+            localStorage.setItem("lists", JSON.stringify(this.lists));
+          },
+          init() {
+            let users = localStorage.getItem("users") || null;
+            if (users) {
+              this.users = JSON.parse(users);
+            } else {
+              this.users = {
+                username: "",
+                email: "",
+                password: "",
+                lists: [],
+              };
 
-                  localStorage.setItem("lists", JSON.stringify(this.lists));
-                }
-              },
-                deleteTask(key, index) {
-                    this.lists[key].tasks.splice(index, 1)
-                    localStorage.setItem("lists", JSON.stringify(this.lists));
-                },
-                localSaveList(){
-                  localStorage.setItem("lists", JSON.stringify(this.lists));
-                },
+              localStorage.setItem("users", JSON.stringify(this.users));
             }
-        }
+          },
+          deleteTask(key, index) {
+            this.lists[key].tasks.splice(index, 1);
+            localStorage.setItem("lists", JSON.stringify(this.lists));
+          },
+          localSaveList() {
+            localStorage.setItem("lists", JSON.stringify(this.lists));
+          },
+        };
+      }
     </script>
     <nav class="navbar navbar-expand-lg">
-        <div class="container" id="mycontainer">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav" id="allnav">
-              <li class="nav-item" id="home">
-                <a class="nav-link active text-warning fs-4" aria-current="page" href="">Home</a>
-              </li>
-              <li class="nav-item" id="important">
-                <a class="nav-link text-white fs-4" href="Important.html">Important</a>
-              </li>
-              <li class="nav-item" id="important">
-                <a class="nav-link text-white fs-4" href="Lists.html">Lists</a>
-              </li>
-            </ul>
-          </div>
+      <div class="container" id="mycontainer">
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav" id="allnav">
+            <li class="nav-item" id="home">
+              <a
+                class="nav-link active text-warning fs-4"
+                aria-current="page"
+                href=""
+                >Home</a
+              >
+            </li>
+            <li class="nav-item" id="important">
+              <a class="nav-link text-white fs-4" href="Important.html"
+                >Important</a
+              >
+            </li>
+            <li class="nav-item" id="lists">
+              <a class="nav-link text-white fs-4" href="Lists.html">Lists</a>
+            </li>
+          </ul>
         </div>
-      </nav>
-  <div x-data="addTask()">
-    <div class="p-2 container-fluid text-uppercase fw-bold rounded text-white title"
-    style="text-align: center; margin-top: 3%; width: 25%">
-    Todo list
-  </div>
-    <div class="d-flex justify-content-center align-items-center mb-4">
-        <input type="text" x-model="message" class="p-2 rounded border border-black form-control fw-bold addinput"
-        id="textinput"
-        autocomplete="off"
-        @keyup.enter="createTask"
-        placeholder="Create a task...">
-        <button @click="createTask" class="bg-warning rounded btn fw-bold addbtn" id="addtask">Add</button>
+      </div>
+      <div class="me-3 btn-group">
+        <button
+          class="authorization btn dropdown-toggle p-2"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <img src="authorization.png" style="height: 50px; width: 50px" />
+        </button>
+        <ul class="dropdown-menu dropdown-menu-lg-end">
+          <li>
+            <a class="dropdown-item authorization-item" href="Login.html"
+              >Login</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item authorization-item" href="Registration.html"
+              >Registration</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div x-data="addTask()">
+      <div
+        class="p-2 container-fluid text-uppercase fw-bold rounded text-white title"
+        style="text-align: center; margin-top: 3%; width: 25%"
+      >
+        Todo list
+      </div>
+      <div class="d-flex justify-content-center align-items-center mb-4">
+        <input
+          type="text"
+          x-model="message"
+          class="p-2 rounded border border-black form-control fw-bold addinput"
+          id="textinput"
+          autocomplete="off"
+          @keyup.enter="createTask"
+          placeholder="Create a task..."
+        />
+        <button
+          @click="createTask()"
+          class="bg-warning rounded btn fw-bold addbtn"
+          id="addtask"
+        >
+          Add
+        </button>
         <div class="dropup">
-          <button class="btn btn-secondary dropdown-toggle align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">Select list
+          <button
+            class="btn btn-secondary dropdown-toggle align-items-center"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Select list
           </button>
           <ul class="dropdown-menu">
             <template x-for="(list, key) in lists" :key="key">
-              <li><a class="dropdown-item" href="#" x-text="list.name" @click="currentList = key; localSaveList()" :class="currentList == key ? 'active' : ''"></a></li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  x-text="list.name"
+                  @click="currentList = key; localSaveList()"
+                  :class="currentList == key ? 'active' : ''"
+                ></a>
+              </li>
             </template>
-            </ul>
-          </div>
-          <div class="dropup">
-            <button class="btn btn-light align-items-center search" type="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="search.jpg"/></button>
-            <ul class="dropdown-menu search">
-              <input type="text" @keyup="" x-model="char">
-            </ul>
-          </div>
-    </div>
-  <ul>
-  <template x-for="(list, key) in lists" :key="key">
-    <template x-for="task in list.tasks" :key="task.id">
-      <li @dragend="localSaveList(), console.log('fired')" :class="task.imp ? 'common' : ''" >
-        <div class="taskbg d-flex align-items-stretch">
-            <div class="taskbody d-flex align-items-center w-100 bg-warning">
-                <input type="checkbox" name="taskcheck" class="taskcheck form-check-input d-flex mt-0" @change="task.status = !task.status; localSaveList()" :checked="task.status">
-                <input x-data="{name: task.name}" x-model="name" x-text="name" type="text" class="tasktext form-control fs-5" @keyup="task.name = name; localSaveList()" :class="task.status ? 'text-decoration-line-through pe-none' : ''">
-                <button @click="task.imp = !task.imp; localSaveList()" x-text="task.imp ? '★' : '☆'" class="taskimportant d-flex btn fs-2">imp</button>
-                <div x-text="task.localtime" class="tasktime fw-medium d-flex pe-none"></div>
-                <button type="button" class="taskdelete d-flex btn btn-light" @click="deleteTask(key,index)">✖</button>
-            </div>
+          </ul>
         </div>
-      </li>
-    </template>
-  </template>
-  </ul>
- </div>
-</body>
+      </div>
+      <ul>
+        <template x-for="(list, key) in lists" :key="key">
+          <template x-for="task in list.tasks" :key="task.id">
+            <li :class="task.imp ? 'common' : ''">
+              <div class="taskbg d-flex align-items-stretch">
+                <div
+                  class="taskbody d-flex align-items-center w-100 bg-warning"
+                >
+                  <input
+                    type="checkbox"
+                    name="taskcheck"
+                    class="taskcheck form-check-input d-flex mt-0"
+                    @change="task.status = !task.status; localSaveList()"
+                    :checked="task.status"
+                  />
+                  <input
+                    x-data="{name: task.name}"
+                    x-model="name"
+                    x-text="name"
+                    type="text"
+                    class="tasktext form-control fs-5"
+                    @keyup="task.name = name; localSaveList()"
+                    :class="task.status ? 'text-decoration-line-through pe-none' : ''"
+                  />
+                  <button
+                    @click="task.imp = !task.imp; localSaveList()"
+                    x-text="task.imp ? '★' : '☆'"
+                    class="taskimportant d-flex btn fs-2"
+                  >
+                    imp
+                  </button>
+                  <div
+                    x-text="task.localtime"
+                    class="tasktime fw-medium d-flex pe-none"
+                  ></div>
+                  <button
+                    type="button"
+                    class="taskdelete d-flex btn btn-light"
+                    @click="deleteTask(key,index)"
+                  >
+                    ✖
+                  </button>
+                </div>
+              </div>
+            </li>
+          </template>
+        </template>
+      </ul>
+    </div>
+  </body>
 </html>
