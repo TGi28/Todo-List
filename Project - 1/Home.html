@@ -35,9 +35,7 @@
           lists: {},
           currentList: "default",
           message: "",
-          username: this.username,
-          email: this.email,
-          password: this.password,
+          char: "",
           createTask() {
             let time = new Date();
             let task = {
@@ -47,23 +45,21 @@
               localtime: time.toLocaleString(),
               imp: false,
             };
-            this.users[this.lists[this.currentList]].tasks.push(task);
+            this.lists[this.currentList].tasks.push(task);
             this.message = "";
             localStorage.setItem("lists", JSON.stringify(this.lists));
           },
           init() {
-            let users = localStorage.getItem("users") || null;
-            if (users) {
-              this.users = JSON.parse(users);
+            let lists = localStorage.getItem("lists") || null;
+            if (lists) {
+              this.lists = JSON.parse(lists);
             } else {
-              this.users = {
-                username: "",
-                email: "",
-                password: "",
-                lists: [],
+              this.lists.default = {
+                name: "Default",
+                tasks: [],
               };
 
-              localStorage.setItem("users", JSON.stringify(this.users));
+              localStorage.setItem("lists", JSON.stringify(this.lists));
             }
           },
           deleteTask(key, index) {
